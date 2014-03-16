@@ -1,1 +1,160 @@
-GitHub Pages placeholder
+<!DOCTYPE html>
+<html class='no-js' lang='en' ng-app='analysisApp'>
+  <head>
+    <meta charset='utf-8'>
+    <meta content='IE=edge' http-equiv='X-UA-Compatible'>
+    <title>Plots</title>
+    <meta content='Plots.' name='description'>
+    <meta content='Evan Sosenko' name='author'>
+    <meta content='width=device-width,initial-scale=1' name='viewport'>
+    <script src='//ajax.googleapis.com/ajax/libs/webfont/1.5.0/webfont.js'></script>
+    <script>
+      (function() {
+        WebFont.load({
+          google: {
+            families: ['Open+Sans:400,300,300italic,400italic,600,700,600italic,700italic,800,800italic:latin,latin-ext', 'Inconsolata:400,700']
+          }
+        });
+      
+      }).call(this);
+    </script>
+    <link href='app.css' rel='stylesheet'>
+    <script src='head.js'></script>
+  </head>
+  <body>
+    <section class='content' ng-cloak='ng-cloak' ng-controller='PlotCtrl'>
+      <section class='controls'>
+        <div class='control-group'>
+          <button class='tiny success' ng-click='auth.login("github", {rememberMe: true})' ng-show='!logged_in'>login</button>
+          <button class='tiny alert' ng-click='auth.logout()' ng-show='logged_in'>logout</button>
+          <button class='tiny alert' ng-click='deleteSet(set)' ng-disabled='set === sets.local'>delete</button>
+          <form class='input-group'>
+            <label class='rounded' for='input-data-set'>fit set</label>
+            <select class='rounded' id='input-data-set' ng-model='set' ng-options='s.name for s in sets | orderByPriority'>
+              <option value=''>select saved fits</option>
+            </select>
+          </form>
+          <button class='tiny' ng-class='reloadLocalFitsClass()' ng-click='reloadLocalFits()' ng-show='has_local'>load local fits</button>
+          <button class='tiny radius' ng-click='incrementFit(-1)' ng-disabled='!incrementFit(-1, true) || loading_data'>previous fit</button>
+          <button class='tiny radius' ng-click='incrementFit(1)' ng-disabled='!incrementFit(1, true) || loading_data'>next fit</button>
+          <form ng-show='set == sets.local &amp;&amp; has_local' ng-submit='addSet(newSet)'>
+            <div class='input-group'>
+              <label for='new-set-name'>new set name</label>
+              <input id='new-set-name' ng-disabled='saving_set' ng-model='newSet.name' type='text'>
+              <button class='tiny' ng-class='saving_set_btn_class' ng-disabled='saving_set' type='submit'>{{ saving_set_btn }}</button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <p class='time'>{{ set.time | date }}</p>
+      <h2>{{ fit.description }}</h2>
+      <section id='chart'>
+        <nvd3-line-chart data='chart_data' interactive='true' margin='100' showXAxis='true' showYAxis='true' showlegend='true' tooltips='true' xaxislabel='{{ fit.independent.name ? fit.independent.name : fit.independent.symbol }} {{ fit.independent.units ? "(" + fit.independent.units + ")" : "" }}' xaxistickformat='plotSettings.tickFormat' yaxislabel='{{ fit.dependent.name ? fit.dependent.name : fit.dependent.symbol }} {{ fit.dependent.units ? "(" + fit.dependent.units + ")" : "" }}' yaxistickformat='plotSettings.tickFormat'>
+          <svg></svg>
+        </nvd3-line-chart>
+      </section>
+      <section class='meta'>
+        <table ng-show='fit.fitted_parameters'>
+          <caption>fitted parameters</caption>
+          <thead>
+            <tr>
+              <td>parameter</td>
+              <td>fitted value</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat='parameter in fit.fitted_parameters'>
+              <td>
+                {{ parameter.symbol | math }}
+                <span class='has-tip tip-top' data-tooltip ng-show='parameter.lmfit.max' title='max: {{ parameter.lmfit.max }} {{ parameter.unit | math }}'>ℹ</span>
+              </td>
+              <td class='has-tip tip-top' data-tooltip title='{{ parameter.value }} {{ parameter.unit | math }}'>
+                {{ parameter.value | number: 5 }} {{ parameter.unit | math }}
+              </td>
+            </tr>
+          </tbody>
+          <table ng-show='fit.fixed_parameters'>
+            <caption>fixed parameters</caption>
+            <thead>
+              <tr>
+                <td>parameter</td>
+                <td>value</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat='parameter in fit.fixed_parameters'>
+                <td>{{ parameter.symbol | math }}</td>
+                <td class='has-tip tip-top' data-tooltip title='{{ parameter.value }} {{ parameter.unit | math }}'>{{ parameter.value | number: 2 }} {{ parameter.unit | math }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table ng-show='fit.quantities'>
+            <caption>computed quantities</caption>
+            <thead>
+              <tr>
+                <td>quantity</td>
+                <td>value</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat='quantity in fit.quantities'>
+                <td>{{ quantity.name | math }}{{ quantity.symbol | math }}</td>
+                <td class='has-tip tip-top' data-tooltip title='{{ quantity.value }} {{ quantity.unit | math }}'>{{ quantity.value | number: 3 }} {{ quantity.unit | math }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table ng-show='fit.quality'>
+            <caption>fit quality</caption>
+            <thead>
+              <tr>
+                <td>quantity</td>
+                <td>value</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat='item in fit.quality'>
+                <td>{{ item.name }}</td>
+                <td class='has-tip tip-top' data-tooltip title='{{ item.value }}'>{{ item.value | number: 3 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </table>
+      </section>
+      <section class='fits'>
+        <div class='fit' ng-class='fitClass(f)' ng-click='setFit(f)' ng-repeat='f in fits'>
+          <h3>{{ f.description }}</h3>
+          <table ng-show='f.fitted_parameters'>
+            <caption>fitted parameters</caption>
+            <tbody>
+              <tr ng-repeat='parameter in f.fitted_parameters'>
+                <td>{{ parameter.symbol | math }}</td>
+                <td>{{ parameter.value | number: 3 }} {{ parameter.unit | math }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table ng-show='f.fixed_parameters'>
+            <caption>fixed parameters</caption>
+            <tbody>
+              <tr ng-repeat='parameter in f.fixed_parameters'>
+                <td>{{ parameter.symbol | math }}</td>
+                <td>{{ parameter.value | number: 2 }} {{ parameter.unit | math }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table ng-show='f.fixed_parameters'>
+            <caption>computed quantities</caption>
+            <tbody>
+              <tr ng-repeat='quantity in f.quantities'>
+                <td>{{ quantity.name | math }}{{ quantity.symbol | math }}</td>
+                <td>{{ quantity.value | number: 2 }} {{ quantity.unit | math }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js'></script>
+    <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+    <script src='app.js'></script>
+  </body>
+</html>
