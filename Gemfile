@@ -6,7 +6,7 @@ gem 'sass', '~> 3.2.11'
 gem 'coffee-script', '~> 2.2.0'
 gem 'haml', '~> 4.0.3'
 gem 'sprockets', '~> 2.12.0'
-gem 'uglifier', '~> 2.4.0'
+gem 'uglifier', '~> 2.5.0'
 
 gem 'rake', '~> 10.1.1'
 gem 'guard', '~> 2.5.1'
