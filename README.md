@@ -1,5 +1,6 @@
 # Fitalyzer
 
+[![Dependency Status](https://gemnasium.com/razor-x/fitalyzer.png)](https://gemnasium.com/razor-x/fitalyzer)
 [![Build Status](https://travis-ci.org/razor-x/fitalyzer.png?branch=production)](https://travis-ci.org/razor-x/fitalyzer)
 
 ## Development
