@@ -1,5 +1,7 @@
 # Fitalyzer
 
+[![Build Status](https://travis-ci.org/razor-x/fitalyzer.png?branch=production)](https://travis-ci.org/razor-x/fitalyzer)
+
 ## Development
 
 ### Requirements
