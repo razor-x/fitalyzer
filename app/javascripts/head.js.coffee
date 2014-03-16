@@ -15,7 +15,10 @@ protocol ?= 'http'
 host = uri_keys.host
 host ?= 'localhost'
 
-if port then window.local_data_root = "#{protocol}://#{host}:#{port}/data/"
+path = uri_keys.path
+path ?= '/'
+
+if port then window.local_data_root = "#{protocol}://#{host}:#{port}#{path}/"
 
 firebase = uri_keys.firebase
 if firebase then window.firebase_path = "https://#{firebase}.firebaseio.com/"
