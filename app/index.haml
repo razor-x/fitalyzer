@@ -1,0 +1,135 @@
+!!!
+%html.no-js{lang: 'en', ng: {app: 'analysisApp'}}
+  %head
+    %meta{charset: 'utf-8'}
+    %meta{'http-equiv' => 'X-UA-Compatible', content: 'IE=edge'}
+    %title Plots
+    %meta{name: 'description', content: 'Plots.'}
+    %meta{name: 'author', content: 'Evan Sosenko'}
+    %meta{name: 'viewport', content: 'width=device-width,initial-scale=1'}
+
+    %script{src: '//ajax.googleapis.com/ajax/libs/webfont/1.5.0/webfont.js'}
+    :coffee
+      WebFont.load
+        google:
+          families: [
+            'Open+Sans:400,300,300italic,400italic,600,700,600italic,700italic,800,800italic:latin,latin-ext'
+            'Inconsolata:400,700'
+          ]
+
+    %link{rel: 'stylesheet', href: 'app.css'}
+    %script{src: 'head.js'}
+
+  %body
+    %section.content{ng: {controller: 'PlotCtrl', cloak: 'ng-cloak'}}
+      %section.controls
+        %div.control-group
+          %button.tiny.success{ng: {click: 'auth.login("github", {rememberMe: true})', show: '!logged_in'}} login
+          %button.tiny.alert{ng: {click: 'auth.logout()', show: 'logged_in'}} logout
+          %button.tiny.alert{ng: {click: 'deleteSet(set)', disabled: 'set === sets.local'}} delete
+
+          %form.input-group
+            %label.rounded{for: 'input-data-set'} fit set
+            %select.rounded#input-data-set{ng: {model: 'set', options: 's.name for s in sets | orderByPriority'}}
+              %option{value: ''} select saved fits
+
+          %button.tiny{ng: {click: 'reloadLocalFits()', show: 'has_local', class: 'reloadLocalFitsClass()'}} load local fits
+          %button.tiny.radius{ng: {click: 'incrementFit(-1)', disabled: '!incrementFit(-1, true) || loading_data'}} previous fit
+          %button.tiny.radius{ng: {click: 'incrementFit(1)', disabled: '!incrementFit(1, true) || loading_data'}} next fit
+
+          %form{ng: {submit: 'addSet(newSet)', show: 'set == sets.local && has_local'}}
+            %div.input-group
+              %label{for: 'new-set-name'} new set name
+              %input#new-set-name{type: 'text', ng: {model: 'newSet.name', disabled: 'saving_set'}}
+              %button.tiny{type: 'submit', ng: {disabled: 'saving_set', class: 'saving_set_btn_class' }} {{ saving_set_btn }}
+
+      %p.time {{ set.time | date }}
+      %h2 {{ fit.description }}
+
+      %section#chart
+        %nvd3-line-chart{data: 'chart_data',
+          showlegend: 'true',
+          showXAxis: 'true',
+          showYAxis: 'true',
+          interactive: 'true',
+          tooltips: 'true',
+          xaxistickformat: 'plotSettings.tickFormat',
+          yaxistickformat: 'plotSettings.tickFormat',
+          xaxislabel: '{{ fit.independent.name ? fit.independent.name : fit.independent.symbol }} {{ fit.independent.units ? "(" + fit.independent.units + ")" : "" }}',
+          yaxislabel: '{{ fit.dependent.name ? fit.dependent.name : fit.dependent.symbol }} {{ fit.dependent.units ? "(" + fit.dependent.units + ")" : "" }}',
+          margin: '100'}
+          %svg
+
+      %section.meta
+        %table{ng: {show: 'fit.fitted_parameters' }}
+          %caption fitted parameters
+          %thead
+            %tr
+              %td parameter
+              %td fitted value
+          %tbody
+            %tr{ng: {repeat: 'parameter in fit.fitted_parameters'}}
+              %td
+                {{ parameter.symbol | math }}
+                %span.has-tip.tip-top{title: 'max: {{ parameter.lmfit.max }} {{ parameter.unit | math }}', data: {tooltip: true}, ng: {show: 'parameter.lmfit.max'}} ℹ
+              %td.has-tip.tip-top{title: '{{ parameter.value }} {{ parameter.unit | math }}', data: {tooltip: true}}
+                {{ parameter.value | number: 5 }} {{ parameter.unit | math }}
+
+          %table{ng: {show: 'fit.fixed_parameters' }}
+            %caption fixed parameters
+            %thead
+              %tr
+                %td parameter
+                %td value
+            %tbody
+              %tr{ng: {repeat: 'parameter in fit.fixed_parameters'}}
+                %td {{ parameter.symbol | math }}
+                %td.has-tip.tip-top{title: '{{ parameter.value }} {{ parameter.unit | math }}', data: {tooltip: true}} {{ parameter.value | number: 2 }} {{ parameter.unit | math }}
+
+          %table{ng: {show: 'fit.quantities' }}
+            %caption computed quantities
+            %thead
+              %tr
+                %td quantity
+                %td value
+            %tbody
+              %tr{ng: {repeat: 'quantity in fit.quantities'}}
+                %td {{ quantity.name | math }}{{ quantity.symbol | math }}
+                %td.has-tip.tip-top{title: '{{ quantity.value }} {{ quantity.unit | math }}', data: {tooltip: true}} {{ quantity.value | number: 3 }} {{ quantity.unit | math }}
+
+          %table{ng: {show: 'fit.quality' }}
+            %caption fit quality
+            %thead
+              %tr
+                %td quantity
+                %td value
+            %tbody
+              %tr{ng: {repeat: 'item in fit.quality'}}
+                %td {{ item.name }}
+                %td.has-tip.tip-top{title: '{{ item.value }}', data: {tooltip: true}} {{ item.value | number: 3 }}
+
+      %section.fits
+        %div.fit{ng: {repeat: 'f in fits', click: 'setFit(f)', class: 'fitClass(f)'}}
+          %h3 {{ f.description }}
+          %table{ng: {show: 'f.fitted_parameters' }}
+            %caption fitted parameters
+            %tbody
+              %tr{ng: {repeat: 'parameter in f.fitted_parameters'}}
+                %td {{ parameter.symbol | math }}
+                %td {{ parameter.value | number: 3 }} {{ parameter.unit | math }}
+          %table{ng: {show: 'f.fixed_parameters' }}
+            %caption fixed parameters
+            %tbody
+              %tr{ng: {repeat: 'parameter in f.fixed_parameters'}}
+                %td {{ parameter.symbol | math }}
+                %td {{ parameter.value | number: 2 }} {{ parameter.unit | math }}
+          %table{ng: {show: 'f.fixed_parameters' }}
+            %caption computed quantities
+            %tbody
+              %tr{ng: {repeat: 'quantity in f.quantities'}}
+                %td {{ quantity.name | math }}{{ quantity.symbol | math }}
+                %td {{ quantity.value | number: 2 }} {{ quantity.unit | math }}
+
+    %script{src: 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js'}
+    %script{src: 'https://cdn.firebase.com/v0/firebase.js'}
+    %script{src: 'app.js'}

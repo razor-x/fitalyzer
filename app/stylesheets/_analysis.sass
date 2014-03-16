@@ -1,0 +1,125 @@
+$base03:    #002b36
+$base02:    #073642
+$base01:    #586e75
+$base00:    #657b83
+$base0:     #839496
+$base1:     #93a1a1
+$base2:     #eee8d5
+$base3:     #fdf6e3
+$yellow:    #b58900
+$orange:    #cb4b16
+$red:       #dc322f
+$magenta:   #d33682
+$violet:    #6c71c4
+$blue:      #268bd2
+$cyan:      #2aa198
+$green:     #859900
+
+$active_color: $yellow
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
+  display: none !important
+
+body
+  background: $base3
+  margin: 1rem
+
+table caption
+  margin-bottom: 0.5rem
+  text-align: left
+
+.control-group
+  display: flex
+  flex-wrap: wrap
+  margin-bottom: 1rem
+
+  button
+    margin: 0
+    white-space: nowrap
+    max-width: 7rem
+
+    &.secondary
+      max-width: 10rem
+
+  > form, > button
+    margin-bottom: 1rem
+    margin-right: 0.5rem
+
+.input-group
+  display: flex
+
+  label
+    margin-bottom: 0
+    font: inherit
+    background-color: $secondary-color
+
+  select, input
+    flex: 1
+    margin: 0
+
+    &:not(:first-child)
+      border-left: 0
+
+    &:not(:last-child)
+      border-right: 0
+
+  label, select, input
+    padding: 0.5rem 0.75rem
+    border: 1px solid $input-prefix-border-color
+
+    &:first-child
+      border-radius: $global-radius 0 0 $global-radius
+
+    &:last-child
+      border-radius: 0 $global-radius $global-radius 0
+
+p.time
+  height: 1rem
+  margin-left: 2px
+  margin-bottom: 0
+
+section.meta
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+
+  table
+    margin-right: 1rem
+
+    td span.has-tip.tip-top
+      float: right
+
+section.fits
+  clear: both
+  display: flex
+  flex-wrap: wrap
+  div.fit
+    max-width: 250px
+    margin: 1rem
+    margin-left: 0
+    padding: 1rem
+    border: 1px solid $secondary-color
+    cursor: pointer
+
+    &.active
+      background-color: $active_color
+
+    &:hover
+      background-color: $base2
+
+      &.active
+        background-color: $yellow
+
+      td
+        white-space: nowrap
+
+svg g.nvd3.nv-wrap.nv-lineChart g.nv-linesWrap g.nvd3.nv-wrap.nv-line g.nv-groups g.nv-group.nv-series-1
+  stroke-opacity: 0 !important
+
+g.nv-group.nv-series-1 .nv-point
+  stroke-opacity: 1 !important
+
+#chart
+  width: 100%
+  height: 700px
+  max-width: 1500px
