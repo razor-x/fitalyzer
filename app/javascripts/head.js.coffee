@@ -18,6 +18,10 @@ host ?= 'localhost'
 path = uri_keys.path
 path ?= '/'
 
+file = uri_keys.file
+file ?= 'fits.json'
+window.local_fits_path = file
+
 if port then window.local_data_root = "#{protocol}://#{host}:#{port}#{path}/"
 
 firebase = uri_keys.firebase

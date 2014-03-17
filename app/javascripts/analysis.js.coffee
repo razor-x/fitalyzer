@@ -51,6 +51,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
   log = $scope.log
 
   local_data_root = window.local_data_root
+  local_fits_path = window.local_fits_path
   ref = new Firebase window.firebase_path
 
   $scope.auth = new FirebaseSimpleLogin ref, (error, user) ->
@@ -137,7 +138,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
             $scope.saving_set_btn = 'saved'
             $scope.saving_set_btn_class = 'success'
 
-  $scope.reloadLocalFits = -> loadLocalFits "#{local_data_root}analysis.json"
+  $scope.reloadLocalFits = -> loadLocalFits "#{local_data_root}#{local_fits_path}"
 
   $scope.fitClass = (fit) -> if fit is $scope.fit then 'active' else ''
 
