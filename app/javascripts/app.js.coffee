@@ -1,6 +1,6 @@
 #= require foundation/js/foundation/foundation
 #= require foundation/js/foundation/foundation.tooltip
-#= require analysis
+#= require fitalyzer
 
 'use strict'
 
