@@ -66,10 +66,10 @@
             <tr ng-repeat='parameter in fit.fitted_parameters'>
               <td>
                 {{ parameter.symbol | math }}
-                <span class='has-tip tip-top' data-tooltip ng-show='parameter.lmfit.max' title='max: {{ parameter.lmfit.max }} {{ parameter.unit | math }}'>ℹ</span>
+                <span class='has-tip tip-top' data-tooltip ng-show='parameter.lmfit.max' title='max: {{ parameter.lmfit.max }} {{ parameter.units | math }}'>ℹ</span>
               </td>
-              <td class='has-tip tip-top' data-tooltip title='{{ parameter.value }} {{ parameter.unit | math }}'>
-                {{ parameter.value | number: 5 }} {{ parameter.unit | math }}
+              <td class='has-tip tip-top' data-tooltip title='{{ parameter.value }} {{ parameter.units | math }}'>
+                {{ parameter.value | number: 5 }} {{ parameter.units | math }}
               </td>
             </tr>
           </tbody>
@@ -84,7 +84,7 @@
             <tbody>
               <tr ng-repeat='parameter in fit.fixed_parameters'>
                 <td>{{ parameter.symbol | math }}</td>
-                <td class='has-tip tip-top' data-tooltip title='{{ parameter.value }} {{ parameter.unit | math }}'>{{ parameter.value | number: 2 }} {{ parameter.unit | math }}</td>
+                <td class='has-tip tip-top' data-tooltip title='{{ parameter.value }} {{ parameter.units | math }}'>{{ parameter.value | number: 2 }} {{ parameter.units | math }}</td>
               </tr>
             </tbody>
           </table>
@@ -99,7 +99,7 @@
             <tbody>
               <tr ng-repeat='quantity in fit.quantities'>
                 <td>{{ quantity.name | math }}{{ quantity.symbol | math }}</td>
-                <td class='has-tip tip-top' data-tooltip title='{{ quantity.value }} {{ quantity.unit | math }}'>{{ quantity.value | number: 3 }} {{ quantity.unit | math }}</td>
+                <td class='has-tip tip-top' data-tooltip title='{{ quantity.value }} {{ quantity.units | math }}'>{{ quantity.value | number: 3 }} {{ quantity.units | math }}</td>
               </tr>
             </tbody>
           </table>
@@ -128,7 +128,7 @@
             <tbody>
               <tr ng-repeat='parameter in f.fitted_parameters'>
                 <td>{{ parameter.symbol | math }}</td>
-                <td>{{ parameter.value | number: 3 }} {{ parameter.unit | math }}</td>
+                <td>{{ parameter.value | number: 3 }} {{ parameter.units | math }}</td>
               </tr>
             </tbody>
           </table>
@@ -137,7 +137,7 @@
             <tbody>
               <tr ng-repeat='parameter in f.fixed_parameters'>
                 <td>{{ parameter.symbol | math }}</td>
-                <td>{{ parameter.value | number: 2 }} {{ parameter.unit | math }}</td>
+                <td>{{ parameter.value | number: 2 }} {{ parameter.units | math }}</td>
               </tr>
             </tbody>
           </table>
@@ -146,7 +146,7 @@
             <tbody>
               <tr ng-repeat='quantity in f.quantities'>
                 <td>{{ quantity.name | math }}{{ quantity.symbol | math }}</td>
-                <td>{{ quantity.value | number: 2 }} {{ quantity.unit | math }}</td>
+                <td>{{ quantity.value | number: 2 }} {{ quantity.units | math }}</td>
               </tr>
             </tbody>
           </table>
