@@ -71,9 +71,9 @@
             %tr{ng: {repeat: 'parameter in fit.fitted_parameters'}}
               %td
                 {{ parameter.symbol | math }}
-                %span.has-tip.tip-top{title: 'max: {{ parameter.lmfit.max }} {{ parameter.unit | math }}', data: {tooltip: true}, ng: {show: 'parameter.lmfit.max'}} ℹ
-              %td.has-tip.tip-top{title: '{{ parameter.value }} {{ parameter.unit | math }}', data: {tooltip: true}}
-                {{ parameter.value | number: 5 }} {{ parameter.unit | math }}
+                %span.has-tip.tip-top{title: 'max: {{ parameter.lmfit.max }} {{ parameter.units | math }}', data: {tooltip: true}, ng: {show: 'parameter.lmfit.max'}} ℹ
+              %td.has-tip.tip-top{title: '{{ parameter.value }} {{ parameter.units | math }}', data: {tooltip: true}}
+                {{ parameter.value | number: 5 }} {{ parameter.units | math }}
 
           %table{ng: {show: 'fit.fixed_parameters' }}
             %caption fixed parameters
@@ -84,7 +84,7 @@
             %tbody
               %tr{ng: {repeat: 'parameter in fit.fixed_parameters'}}
                 %td {{ parameter.symbol | math }}
-                %td.has-tip.tip-top{title: '{{ parameter.value }} {{ parameter.unit | math }}', data: {tooltip: true}} {{ parameter.value | number: 2 }} {{ parameter.unit | math }}
+                %td.has-tip.tip-top{title: '{{ parameter.value }} {{ parameter.units | math }}', data: {tooltip: true}} {{ parameter.value | number: 2 }} {{ parameter.units | math }}
 
           %table{ng: {show: 'fit.quantities' }}
             %caption computed quantities
@@ -95,7 +95,7 @@
             %tbody
               %tr{ng: {repeat: 'quantity in fit.quantities'}}
                 %td {{ quantity.name | math }}{{ quantity.symbol | math }}
-                %td.has-tip.tip-top{title: '{{ quantity.value }} {{ quantity.unit | math }}', data: {tooltip: true}} {{ quantity.value | number: 3 }} {{ quantity.unit | math }}
+                %td.has-tip.tip-top{title: '{{ quantity.value }} {{ quantity.units | math }}', data: {tooltip: true}} {{ quantity.value | number: 3 }} {{ quantity.units | math }}
 
           %table{ng: {show: 'fit.quality' }}
             %caption fit quality
@@ -116,19 +116,19 @@
             %tbody
               %tr{ng: {repeat: 'parameter in f.fitted_parameters'}}
                 %td {{ parameter.symbol | math }}
-                %td {{ parameter.value | number: 3 }} {{ parameter.unit | math }}
+                %td {{ parameter.value | number: 3 }} {{ parameter.units | math }}
           %table{ng: {show: 'f.fixed_parameters' }}
             %caption fixed parameters
             %tbody
               %tr{ng: {repeat: 'parameter in f.fixed_parameters'}}
                 %td {{ parameter.symbol | math }}
-                %td {{ parameter.value | number: 2 }} {{ parameter.unit | math }}
+                %td {{ parameter.value | number: 2 }} {{ parameter.units | math }}
           %table{ng: {show: 'f.fixed_parameters' }}
             %caption computed quantities
             %tbody
               %tr{ng: {repeat: 'quantity in f.quantities'}}
                 %td {{ quantity.name | math }}{{ quantity.symbol | math }}
-                %td {{ quantity.value | number: 2 }} {{ quantity.unit | math }}
+                %td {{ quantity.value | number: 2 }} {{ quantity.units | math }}
 
     %script{src: 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js'}
     %script{src: 'https://cdn.firebase.com/v0/firebase.js'}
