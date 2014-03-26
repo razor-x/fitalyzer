@@ -80,14 +80,14 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
     if $scope.set is $scope.sets.local
       $scope.reloadLocalFits()
 
-      $scope.fits = $firebase(ref).$child('fits').$child($scope.set.$id)
+    $scope.fits = $firebase(ref).$child('fits').$child($scope.set.$id)
 
-      $scope.fits.$on 'loaded', ->
-        log "$scope.fits loaded from firebase for #{$scope.set.name}", 'debug'
-        initial_fit_id = if window.fit_id then window.fit_id else $scope.fits.$getIndex()[0]
-        window.fit_id = null
-        $scope.fits.$child(initial_fit_id).$on 'loaded', ->
-          $scope.fit = $scope.fits[initial_fit_id]
+    $scope.fits.$on 'loaded', ->
+      log "$scope.fits loaded from firebase for #{$scope.set.name}", 'debug'
+      initial_fit_id = if window.fit_id then window.fit_id else $scope.fits.$getIndex()[0]
+      window.fit_id = null
+      $scope.fits.$child(initial_fit_id).$on 'loaded', ->
+        $scope.fit = $scope.fits[initial_fit_id]
 
   $scope.$watch 'fit', ->
     if not $scope.fit then return
