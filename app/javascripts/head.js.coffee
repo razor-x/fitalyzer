@@ -7,6 +7,9 @@
 parseUri.options.strictMode = true
 uri_keys = parseUri(document.URL).queryKey
 
+window.set_id = uri_keys.set
+window.fit_id = uri_keys.fit
+
 port = uri_keys.port
 
 protocol = uri_keys.protocol

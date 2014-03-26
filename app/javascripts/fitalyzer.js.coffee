@@ -66,24 +66,28 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
   $scope.sets.$on 'loaded', ->
     log '$scope.sets loaded from firebase', 'debug'
     $scope.sets.local = {'name': 'local'}
-    $scope.set = $scope.sets.local
+
+    if local_data_root
+      $scope.set = $scope.sets.local
+      $scope.reloadLocalFits()
+    else
+      loadInitialSet()
 
   $scope.$watch 'set', ->
     if not $scope.set then return
     log "$scope.set now has name #{$scope.set.name}", 'debug'
 
     if $scope.set is $scope.sets.local
-      if local_data_root
-        $scope.reloadLocalFits()
-      else
-        loadInitialSet()
-    else
+      $scope.reloadLocalFits()
+
       $scope.fits = $firebase(ref).$child('fits').$child($scope.set.$id)
 
       $scope.fits.$on 'loaded', ->
         log "$scope.fits loaded from firebase for #{$scope.set.name}", 'debug'
-        initial_fit_id = $scope.fits.$getIndex()[0]
-        $scope.fit = $scope.fits[initial_fit_id]
+        initial_fit_id = if window.fit_id then window.fit_id else $scope.fits.$getIndex()[0]
+        window.fit_id = null
+        $scope.fits.$child(initial_fit_id).$on 'loaded', ->
+          $scope.fit = $scope.fits[initial_fit_id]
 
   $scope.$watch 'fit', ->
     if not $scope.fit then return
@@ -203,7 +207,9 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
       log "local data not found with status: #{status} ", 'debug'
 
   loadInitialSet = ->
-    initial_set_id = $scope.sets.$getIndex()[0]
-    $scope.set = $scope.sets[initial_set_id]
+    initial_set_id = if window.set_id then window.set_id else $scope.sets.$getIndex()[0]
+    window.set_id = null
+    $scope.sets.$child(initial_set_id).$on 'loaded', ->
+      $scope.set = $scope.sets[initial_set_id]
 
 app.controller 'PlotCtrl', ['$scope', '$http', '$log', '$firebase', 'solarized', PlotCtrl]
