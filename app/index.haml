@@ -123,7 +123,7 @@
               %tr{ng: {repeat: 'parameter in f.fixed_parameters'}}
                 %td {{ parameter.symbol | math }}
                 %td {{ parameter.value | number: 2 }} {{ parameter.units | math }}
-          %table{ng: {show: 'f.fixed_parameters' }}
+          %table{ng: {show: 'f.quantities' }}
             %caption computed quantities
             %tbody
               %tr{ng: {repeat: 'quantity in f.quantities'}}
