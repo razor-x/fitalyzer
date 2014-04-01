@@ -35,6 +35,52 @@ app.constant 'solarized',
 PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
   $scope.debug = false
 
+  class Parameters
+    constructor: (keys) ->
+      @root_url =
+        "#{location.protocol}//#{location.hostname}#{(location.port && ':' + location.port)}/"
+
+      @firebase = keys.firebase
+      @firebase ?= 'fitalyzer'
+
+      @port = keys.port
+
+      @protocol = keys.protocol
+      @protocol ?= 'http'
+
+      @host = keys.host
+      @host ?= 'localhost'
+
+      @path = keys.path
+      @path ?= '/'
+
+      @file = keys.file
+      @file ?= 'fits.json'
+
+      @set = keys.set
+      @fit = keys.fit
+
+    firebase_ref: -> "https://#{@firebase}.firebaseio.com/"
+
+    local_path: ->
+      if @port?
+        "#{@protocol}://#{@host}:#{@port}#{@path}/"
+      else
+        null
+
+    permalink: ->
+      url = "#{@root_url}?firebase=#{@firebase}"
+      if @port?
+        url += "&port=#{@port}&host=#{@host}&path=#{@path}&file=#{@file}"
+
+      if @set?
+        url += "&set=#{@set}"
+
+      if @fit?
+        url += "&fit=#{@fit}"
+
+      return url
+
   $scope.plotSettings =
     tickFormat: d3.format ',.3f'
 
@@ -50,9 +96,11 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
     if $scope.debug then $log[type](msg)
   log = $scope.log
 
-  local_data_root = window.local_data_root
-  local_fits_path = window.local_fits_path
-  ref = new Firebase window.firebase_path
+  parameters = new Parameters(window.parseUri(document.URL).queryKey)
+
+  $scope.permalink = parameters.permalink()
+
+  ref = new Firebase parameters.firebase_ref()
 
   $scope.auth = new FirebaseSimpleLogin ref, (error, user) ->
     if user
@@ -67,7 +115,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
     log '$scope.sets loaded from firebase', 'debug'
     $scope.sets.local = {'name': 'local'}
 
-    if local_data_root
+    if parameters.local_path()
       $scope.set = $scope.sets.local
       $scope.reloadLocalFits()
     else
@@ -82,10 +130,10 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
 
     $scope.fits = $firebase(ref).$child('fits').$child($scope.set.$id)
 
+
     $scope.fits.$on 'loaded', ->
       log "$scope.fits loaded from firebase for #{$scope.set.name}", 'debug'
-      initial_fit_id = if window.fit_id then window.fit_id else $scope.fits.$getIndex()[0]
-      window.fit_id = null
+      initial_fit_id = if parameters.fit? then parameters.fit else $scope.fits.$getIndex()[0]
       $scope.fits.$child(initial_fit_id).$on 'loaded', ->
         $scope.fit = $scope.fits[initial_fit_id]
 
@@ -94,7 +142,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
     log "$scope.fit now has name #{$scope.fit.name}", 'debug'
 
     if $scope.set is $scope.sets.local
-      loadLocalData "#{local_data_root}#{$scope.fit.name}.json"
+      loadLocalData "#{parameters.local_path()}#{$scope.fit.name}.json"
     else
       $scope.loading_data = true
       $scope.fits_keys = $scope.fits.$getIndex()
@@ -103,6 +151,11 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
 
       $scope.data.$on 'loaded', ->
         log "successfully loaded data with #{$scope.fit.name}", 'debug'
+
+        parameters.set = $scope.set.$id
+        parameters.fit = $scope.fit.id
+        $scope.permalink = parameters.permalink()
+
         $scope.loading_data = false
         $scope.chart_data = formatData $scope.data['data'], $scope.data['fit']
 
@@ -133,7 +186,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
 
       i = 0
       angular.forEach $scope.fits, (value, key) ->
-        $http method: 'GET', url: "#{local_data_root}#{value.name}.json"
+        $http method: 'GET', url: "#{parameters.local_path()}#{value.name}.json"
         .success (data, status, headers, config) ->
           log "saving local data for fit named #{value.name} to #{set_name}", 'debug'
           ref.child('data').child(set_id).child(value.name).set(data)
@@ -142,7 +195,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
             $scope.saving_set_btn = 'saved'
             $scope.saving_set_btn_class = 'success'
 
-  $scope.reloadLocalFits = -> loadLocalFits "#{local_data_root}#{local_fits_path}"
+  $scope.reloadLocalFits = -> loadLocalFits "#{parameters.local_path()}#{parameters.file}"
 
   $scope.fitClass = (fit) -> if fit is $scope.fit then 'active' else ''
 
@@ -207,8 +260,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
       log "local data not found with status: #{status} ", 'debug'
 
   loadInitialSet = ->
-    initial_set_id = if window.set_id then window.set_id else $scope.sets.$getIndex()[0]
-    window.set_id = null
+    initial_set_id = if parameters.set? then parameters.set else $scope.sets.$getIndex()[0]
     $scope.sets.$child(initial_set_id).$on 'loaded', ->
       $scope.set = $scope.sets[initial_set_id]
 

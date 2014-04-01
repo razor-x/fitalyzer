@@ -12,6 +12,8 @@ task :html do
   %i(sprockets haml).each do |guard|
     Guard.guards(guard).each { |g| g.run_all }
   end
+  FileUtils.copy 'bower_components/zeroclipboard/ZeroClipboard.swf', '_site'
+  puts '# -> _site/ZeroClipboard.swf'
 end
 
 desc 'Compile and publish to GitHub Pages.'

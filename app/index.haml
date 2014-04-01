@@ -43,6 +43,8 @@
               %input#new-set-name{type: 'text', ng: {model: 'newSet.name', disabled: 'saving_set'}}
               %button.tiny{type: 'submit', ng: {disabled: 'saving_set', class: 'saving_set_btn_class' }} {{ saving_set_btn }}
 
+          %button.tiny{data:{reveal: {id: 'permalink'}}} permalink
+
       %p.time {{ set.time | date }}
       %h2 {{ fit.description }}
 
@@ -129,6 +131,12 @@
               %tr{ng: {repeat: 'quantity in f.quantities'}}
                 %td {{ quantity.name | math }}{{ quantity.symbol | math }}
                 %td {{ quantity.value | number: 2 }} {{ quantity.units | math }}
+
+      %aside#permalink.reveal-modal{data: {reveal: true}}
+        %h2 Permalink
+        %input#permalink_text{type: 'text', ng: {model: 'permalink'}}
+        %button.zeroclipboard{data: {clipboard: {target: 'permalink_text'}}} copy to clipboard
+        %a.close-reveal-modal ×
 
     %script{src: 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js'}
     %script{src: 'https://cdn.firebase.com/v0/firebase.js'}
