@@ -44,6 +44,7 @@
               <button class='tiny' ng-class='saving_set_btn_class' ng-disabled='saving_set' type='submit'>{{ saving_set_btn }}</button>
             </div>
           </form>
+          <button class='tiny' data-reveal-id='permalink'>permalink</button>
         </div>
       </section>
       <p class='time'>{{ set.time | date }}</p>
@@ -152,6 +153,12 @@
           </table>
         </div>
       </section>
+      <aside class='reveal-modal' data-reveal id='permalink'>
+        <h2>Permalink</h2>
+        <input id='permalink_text' ng-model='permalink' type='text'>
+        <button class='zeroclipboard' data-clipboard-target='permalink_text'>copy to clipboard</button>
+        <a class='close-reveal-modal'>×</a>
+      </aside>
     </section>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js'></script>
     <script src='https://cdn.firebase.com/v0/firebase.js'></script>
