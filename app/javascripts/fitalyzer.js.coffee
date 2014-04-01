@@ -261,7 +261,9 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
 
   loadInitialSet = ->
     initial_set_id = if parameters.set? then parameters.set else $scope.sets.$getIndex()[0]
-    $scope.sets.$child(initial_set_id).$on 'loaded', ->
-      $scope.set = $scope.sets[initial_set_id]
+
+    if initial_set_id?
+      $scope.sets.$child(initial_set_id).$on 'loaded', ->
+        $scope.set = $scope.sets[initial_set_id]
 
 app.controller 'PlotCtrl', ['$scope', '$http', '$log', '$firebase', 'solarized', PlotCtrl]
