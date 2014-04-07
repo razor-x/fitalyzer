@@ -36,9 +36,12 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
   $scope.debug = false
 
   class Parameters
-    constructor: (keys) ->
+    constructor: (url) ->
+      parse_uri = window.parseUri(url)
+      keys = parse_uri.queryKey
+
       @root_url =
-        "#{location.protocol}//#{location.hostname}#{(location.port && ':' + location.port)}/"
+        "#{parse_uri.protocol}//#{parse_uri.host}#{(parse_uri.port && ':' + parse_uri.port)}#{parse_uri.directory}"
 
       @firebase = keys.firebase
       @firebase ?= 'fitalyzer'
@@ -96,7 +99,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
     if $scope.debug then $log[type](msg)
   log = $scope.log
 
-  parameters = new Parameters(window.parseUri(document.URL).queryKey)
+  parameters = new Parameters(document.URL)
 
   $scope.permalink = parameters.permalink()
 
