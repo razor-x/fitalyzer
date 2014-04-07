@@ -41,7 +41,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
       keys = parse_uri.queryKey
 
       @root_url =
-        "#{parse_uri.protocol}//#{parse_uri.host}#{(parse_uri.port && ':' + parse_uri.port)}#{parse_uri.directory}"
+        "#{parse_uri.protocol}://#{parse_uri.host}#{(parse_uri.port && ':' + parse_uri.port)}#{parse_uri.directory}"
 
       @firebase = keys.firebase
       @firebase ?= 'fitalyzer'
