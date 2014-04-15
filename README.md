@@ -4,6 +4,11 @@
 [![Dependency Status](http://img.shields.io/gemnasium/razor-x/fitalyzer.svg)](https://gemnasium.com/razor-x/fitalyzer)
 [![Build Status](http://img.shields.io/travis/razor-x/fitalyzer/production.svg)](https://travis-ci.org/razor-x/fitalyzer)
 
+Full documentation is sill a work in progress.
+
+For an idea of what Fitalyzer does, checkout the
+[**working demo**](http://io.evansosenko.com/fitalyzer/?firebase=scipy-data-fitting).
+
 ## Development
 
 ### Requirements
