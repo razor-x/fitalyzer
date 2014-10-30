@@ -7,7 +7,7 @@
 Full documentation is sill a work in progress.
 
 For an idea of what Fitalyzer does, checkout the
-[**working demo**](http://io.evansosenko.com/fitalyzer/?firebase=scipy-data-fitting).
+[**working demo**](https://io.evansosenko.com/fitalyzer/?firebase=scipy-data-fitting).
 
 ## Development
 
