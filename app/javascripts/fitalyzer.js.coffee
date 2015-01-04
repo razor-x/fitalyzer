@@ -1,8 +1,8 @@
 #= require d3
 #= require nvd3
+#= require firebase
 #= require angular
 #= require angularfire
-#= require firebase-simple-login
 #= require angularjs-nvd3-directives
 #= require angular-loading-bar
 
