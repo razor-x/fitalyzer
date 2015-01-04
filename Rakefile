@@ -21,7 +21,7 @@ task :html do
   %i(sprockets haml).each do |guard|
     Guard.state.session.plugins.all(guard).each { |g| g.run_all }
   end
-  FileUtils.copy 'bower_components/zeroclipboard/ZeroClipboard.swf', '_site'
+  FileUtils.copy 'bower_components/zeroclipboard/dist/ZeroClipboard.swf', '_site'
   puts '# -> _site/ZeroClipboard.swf'
 end
 
