@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/razor-x/guard-webrick.git
-  revision: a48173a0d0b917b5ef1d4a530bc76610fd78d720
+  revision: dcf5f8081f50a86493b52d54984d0af5211f800a
   specs:
-    guard-webrick (0.1.5.dev)
+    guard-webrick (0.2.0.dev)
       ffi
       guard (~> 2.0)
       launchy (~> 2.1.0)
