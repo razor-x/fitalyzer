@@ -1,8 +1,17 @@
+# Standard library
+require 'tmpdir'
+
 require 'guard'
 
 destination = '_site/'
 
+# Set `rake build` as default task
 task default: :build
+
+# Redefine system to exit with nonzero status on fail.
+def system(*args)
+  super(*args) or exit!(1)
+end
 
 task build: [:html]
 
@@ -37,7 +46,7 @@ task :ghpages do
   end
 end
 
-desc 'Compile on Travis CI and publish site to GitHub Pages.'
+desc 'Generate site from Travis CI and publish site to GitHub Pages.'
 task :travis do
   # if this is a pull request, do a simple build of the site and stop
   if ENV['TRAVIS_PULL_REQUEST'].to_s.to_i > 0
