@@ -10,7 +10,7 @@ desc 'Compile web app.'
 task :html do
   Guard.setup
   %i(sprockets haml).each do |guard|
-    Guard.guards(guard).each { |g| g.run_all }
+    Guard.state.session.plugins.all(guard).each { |g| g.run_all }
   end
   FileUtils.copy 'bower_components/zeroclipboard/ZeroClipboard.swf', '_site'
   puts '# -> _site/ZeroClipboard.swf'
