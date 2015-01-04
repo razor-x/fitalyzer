@@ -1,15 +1,18 @@
+---
 language: [ ruby, node_js ]
-rvm: [ 2.1.1 ]
+rvm: [ 2.2.0 ]
 node_js: [ 0.10 ]
+cache: bundler
+sudo: false
 
 before_script:
   - npm install bower -g
   - bower install
-  
-install:
-  - bundle update
 
-script: rake travis
+before_install:
+  - 'echo ''gem: --no-document'' > ~/.gemrc'
+
+script: bundle exec rake travis
 
 # set the branch that will be built and published to GitHub pages
 branches:

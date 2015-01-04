@@ -2,6 +2,7 @@
 
 ## HEAD
 
+- Optimize Travis CI.
 - Updated gem and bower dependencies.
 - Fixed plot display issues.
 
