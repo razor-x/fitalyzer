@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/razor-x/guard-webrick.git
-  revision: dcf5f8081f50a86493b52d54984d0af5211f800a
+  revision: b24a845e32597c36757ac4fb19e008860b7993a3
   specs:
-    guard-webrick (0.2.0.dev)
+    guard-webrick (0.2.1.dev)
       ffi
       guard (~> 2.0)
       launchy (~> 2.1.0)
@@ -11,16 +11,16 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.3.6)
+    addressable (2.3.8)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     coderay (1.1.0)
     coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.8.0)
-    execjs (2.2.2)
-    ffi (1.9.6)
+    coffee-script-source (1.9.1)
+    execjs (2.4.0)
+    ffi (1.9.8)
     formatador (0.2.5)
     guard (2.10.5)
       formatador (>= 0.2.4)
@@ -40,17 +40,17 @@ GEM
       tilt
     hike (1.2.3)
     hitimes (1.2.2)
-    json (1.8.1)
+    json (1.8.2)
     launchy (2.1.2)
       addressable (~> 2.3)
-    listen (2.8.4)
-      celluloid (>= 0.15.2)
+    listen (2.10.0)
+      celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
     method_source (0.8.2)
-    multi_json (1.10.1)
-    nenv (0.1.1)
+    multi_json (1.11.0)
+    nenv (0.2.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -61,7 +61,7 @@ GEM
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     rb-readline (0.5.2)
-    sass (3.4.9)
+    sass (3.4.13)
     slop (3.6.0)
     spoon (0.0.4)
       ffi
