@@ -1,8 +1,8 @@
 # Fitalyzer
 
-[![MIT License](https://img.shields.io/badge/license-MIT-red.svg?style=flat)](./LICENSE.txt)
-[![Dependency Status](https://img.shields.io/gemnasium/razor-x/fitalyzer.svg?style=flat)](https://gemnasium.com/razor-x/fitalyzer)
-[![Build Status](https://img.shields.io/travis/razor-x/fitalyzer/production.svg?style=flat)](https://travis-ci.org/razor-x/fitalyzer)
+[![MIT License](https://img.shields.io/badge/license-MIT-red.svg)](./LICENSE.txt)
+[![Dependency Status](https://img.shields.io/gemnasium/razor-x/fitalyzer.svg)](https://gemnasium.com/razor-x/fitalyzer)
+[![Build Status](https://img.shields.io/travis/razor-x/fitalyzer/production.svg)](https://travis-ci.org/razor-x/fitalyzer)
 
 Full documentation is sill a work in progress.
 
