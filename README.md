@@ -2,7 +2,7 @@
 
 [![MIT License](https://img.shields.io/github/license/razor-x/fitalyzer.svg)](./LICENSE.txt)
 [![Dependency Status](https://img.shields.io/gemnasium/razor-x/fitalyzer.svg)](https://gemnasium.com/razor-x/fitalyzer)
-[![Build Status](https://img.shields.io/travis/razor-x/fitalyzer/production.svg)](https://travis-ci.org/razor-x/fitalyzer)
+[![Build Status](https://img.shields.io/travis/razor-x/fitalyzer.svg)](https://travis-ci.org/razor-x/fitalyzer)
 
 Full documentation is sill a work in progress.
 
