@@ -22,17 +22,17 @@ task :ghpages do
   deploy_branch = repo.match(/github\.io\.git$/) ? 'master' : 'gh-pages'
   rev = %x(git rev-parse HEAD).strip
 
-  system 'bundle update'
-  system 'bower update'
+  sh 'bundle update'
+  sh 'bower update'
 
   Dir.mktmpdir do |dir|
-    system "git clone --branch #{deploy_branch} #{repo} #{dir}"
-    system 'bundle exec rake build'
+    sh "git clone --branch #{deploy_branch} #{repo} #{dir}"
+    sh 'bundle exec rake build'
     sh %Q(rsync -rt --delete-after --exclude=".git" --exclude=".nojekyll" --exclude=".deploy_key*" #{destination} #{dir})
     Dir.chdir dir do
-      system 'git add --all'
-      system "git commit -m 'Built from #{rev}'."
-      system 'git push'
+      sh 'git add --all'
+      sh "git commit -m 'Built from #{rev}'."
+      sh 'git push'
     end
   end
 end
