@@ -1,6 +1,7 @@
 require 'guard'
 
 destination = '_site/'
+branch = 'production'
 
 task default: :build
 
@@ -41,7 +42,8 @@ end
 desc 'Compile on Travis CI and publish site to GitHub Pages.'
 task :travis do
   # if this is a pull request, do a simple build of the site and stop
-  if ENV['TRAVIS_PULL_REQUEST'].to_s.to_i > 0
+  if ENV['TRAVIS_PULL_REQUEST'].to_s.to_i > 0 \
+     || ENV['TRAVIS_BRANCH'].to_s != branch
     puts 'Pull request detected. Executing build only.'
     sh 'bundle exec rake build'
     next
