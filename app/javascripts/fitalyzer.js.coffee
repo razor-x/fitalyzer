@@ -50,7 +50,7 @@ PlotCtrl = ($scope, $http, $log, $firebase, solarized) ->
       @port = keys.port
 
       @protocol = keys.protocol
-      @protocol ?= 'http'
+      @protocol ?= 'https'
 
       @host = keys.host
       @host ?= 'localhost'
