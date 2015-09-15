@@ -1,7 +1,9 @@
 ---
 language: [ ruby, node_js ]
-rvm: [ 2.2.2 ]
-node_js: [ iojs ]
+rvm:
+  - 2
+node_js:
+  - stable
 cache:
   bundler: true
   directories:
